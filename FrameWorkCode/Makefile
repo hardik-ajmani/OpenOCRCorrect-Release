@@ -35,7 +35,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = qpadfinal1.0.0
-DISTDIR = /home/lucifer/Documents/IITB/Dev/Verifier-binary/OpenOCRCorrect-Release/FrameWorkCode/.tmp/qpadfinal1.0.0
+DISTDIR = /home/lucifer/Documents/IITB/Dev/Verifier/OpenOCRCorrect/FrameWorkCode/.tmp/qpadfinal1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
 LIBS          = $(SUBLIBS) -L/usr/include/tesseract -L/usr/include/leptonica -ltesseract -llept -lQt5PrintSupport -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -51,6 +51,7 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = DiffView.cpp \
+		averageaccuracies.cpp \
 		commentsview.cpp \
 		diff_match_patch.cpp \
 		mainwindow.cpp \
@@ -60,11 +61,13 @@ SOURCES       = DiffView.cpp \
 		interndiffview.cpp qrc_AppResources.cpp \
 		moc_mainwindow.cpp \
 		moc_DiffView.cpp \
+		moc_averageaccuracies.cpp \
 		moc_commentsview.cpp \
 		moc_zoom.cpp \
 		moc_qcustomplot.cpp \
 		moc_interndiffview.cpp
 OBJECTS       = DiffView.o \
+		averageaccuracies.o \
 		commentsview.o \
 		diff_match_patch.o \
 		mainwindow.o \
@@ -75,6 +78,7 @@ OBJECTS       = DiffView.o \
 		qrc_AppResources.o \
 		moc_mainwindow.o \
 		moc_DiffView.o \
+		moc_averageaccuracies.o \
 		moc_commentsview.o \
 		moc_zoom.o \
 		moc_qcustomplot.o \
@@ -154,6 +158,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		qpadfinal.pro mainwindow.h \
 		DiffView.h \
+		averageaccuracies.h \
 		commentsview.h \
 		diff_match_patch.h \
 		eddis.h \
@@ -199,6 +204,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		qcustomplot.h \
 		meanStdPage.h \
 		interndiffview.h DiffView.cpp \
+		averageaccuracies.cpp \
 		commentsview.cpp \
 		diff_match_patch.cpp \
 		mainwindow.cpp \
@@ -214,7 +220,7 @@ TARGET        = qpadfinal
 first: all
 ####### Build rules
 
-$(TARGET): ui_mainwindow.h ui_DiffView.h ui_commentsview.h ui_interndiffview.h $(OBJECTS)  
+$(TARGET): ui_mainwindow.h ui_DiffView.h ui_averageaccuracies.h ui_commentsview.h ui_interndiffview.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: qpadfinal.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -392,9 +398,9 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents AppResources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h DiffView.h commentsview.h diff_match_patch.h eddis.h slpNPatternDict.h tesseract/apitypes.h tesseract/apitypes.h tesseract/baseapi.h tesseract/baseapi.h tesseract/capi.h tesseract/capi.h tesseract/genericvector.h tesseract/genericvector.h tesseract/helpers.h tesseract/helpers.h tesseract/ltrresultiterator.h tesseract/ltrresultiterator.h tesseract/ocrclass.h tesseract/ocrclass.h tesseract/osdetect.h tesseract/osdetect.h tesseract/pageiterator.h tesseract/pageiterator.h tesseract/platform.h tesseract/platform.h tesseract/publictypes.h tesseract/publictypes.h tesseract/renderer.h tesseract/renderer.h tesseract/resultiterator.h tesseract/resultiterator.h tesseract/serialis.h tesseract/serialis.h tesseract/strngs.h tesseract/strngs.h tesseract/thresholder.h tesseract/thresholder.h tesseract/unichar.h tesseract/unichar.h tesseract/version.h tesseract/version.h trieEditdis.h zoom.h qcustomplot.h meanStdPage.h interndiffview.h $(DISTDIR)/
-	$(COPY_FILE) --parents DiffView.cpp commentsview.cpp diff_match_patch.cpp mainwindow.cpp main.cpp zoom.cpp qcustomplot.cpp interndiffview.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.ui DiffView.ui commentsview.ui interndiffview.ui $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h DiffView.h averageaccuracies.h commentsview.h diff_match_patch.h eddis.h slpNPatternDict.h tesseract/apitypes.h tesseract/apitypes.h tesseract/baseapi.h tesseract/baseapi.h tesseract/capi.h tesseract/capi.h tesseract/genericvector.h tesseract/genericvector.h tesseract/helpers.h tesseract/helpers.h tesseract/ltrresultiterator.h tesseract/ltrresultiterator.h tesseract/ocrclass.h tesseract/ocrclass.h tesseract/osdetect.h tesseract/osdetect.h tesseract/pageiterator.h tesseract/pageiterator.h tesseract/platform.h tesseract/platform.h tesseract/publictypes.h tesseract/publictypes.h tesseract/renderer.h tesseract/renderer.h tesseract/resultiterator.h tesseract/resultiterator.h tesseract/serialis.h tesseract/serialis.h tesseract/strngs.h tesseract/strngs.h tesseract/thresholder.h tesseract/thresholder.h tesseract/unichar.h tesseract/unichar.h tesseract/version.h tesseract/version.h trieEditdis.h zoom.h qcustomplot.h meanStdPage.h interndiffview.h $(DISTDIR)/
+	$(COPY_FILE) --parents DiffView.cpp averageaccuracies.cpp commentsview.cpp diff_match_patch.cpp mainwindow.cpp main.cpp zoom.cpp qcustomplot.cpp interndiffview.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.ui DiffView.ui averageaccuracies.ui commentsview.ui interndiffview.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -453,45 +459,50 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_DiffView.cpp moc_commentsview.cpp moc_zoom.cpp moc_qcustomplot.cpp moc_interndiffview.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_DiffView.cpp moc_averageaccuracies.cpp moc_commentsview.cpp moc_zoom.cpp moc_qcustomplot.cpp moc_interndiffview.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_DiffView.cpp moc_commentsview.cpp moc_zoom.cpp moc_qcustomplot.cpp moc_interndiffview.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_DiffView.cpp moc_averageaccuracies.cpp moc_commentsview.cpp moc_zoom.cpp moc_qcustomplot.cpp moc_interndiffview.cpp
 moc_mainwindow.cpp: zoom.h \
 		mainwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier-binary/OpenOCRCorrect-Release/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier/OpenOCRCorrect/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
 
 moc_DiffView.cpp: DiffView.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier-binary/OpenOCRCorrect-Release/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include DiffView.h -o moc_DiffView.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier/OpenOCRCorrect/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include DiffView.h -o moc_DiffView.cpp
+
+moc_averageaccuracies.cpp: averageaccuracies.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier/OpenOCRCorrect/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include averageaccuracies.h -o moc_averageaccuracies.cpp
 
 moc_commentsview.cpp: commentsview.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier-binary/OpenOCRCorrect-Release/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include commentsview.h -o moc_commentsview.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier/OpenOCRCorrect/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include commentsview.h -o moc_commentsview.cpp
 
 moc_zoom.cpp: zoom.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier-binary/OpenOCRCorrect-Release/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include zoom.h -o moc_zoom.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier/OpenOCRCorrect/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include zoom.h -o moc_zoom.cpp
 
 moc_qcustomplot.cpp: qcustomplot.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier-binary/OpenOCRCorrect-Release/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include qcustomplot.h -o moc_qcustomplot.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier/OpenOCRCorrect/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include qcustomplot.h -o moc_qcustomplot.cpp
 
 moc_interndiffview.cpp: interndiffview.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier-binary/OpenOCRCorrect-Release/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include interndiffview.h -o moc_interndiffview.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/lucifer/Documents/IITB/Dev/Verifier/OpenOCRCorrect/FrameWorkCode -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include interndiffview.h -o moc_interndiffview.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_DiffView.h ui_commentsview.h ui_interndiffview.h
+compiler_uic_make_all: ui_mainwindow.h ui_DiffView.h ui_averageaccuracies.h ui_commentsview.h ui_interndiffview.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_DiffView.h ui_commentsview.h ui_interndiffview.h
+	-$(DEL_FILE) ui_mainwindow.h ui_DiffView.h ui_averageaccuracies.h ui_commentsview.h ui_interndiffview.h
 ui_mainwindow.h: mainwindow.ui \
 		/usr/lib/qt5/bin/uic
 	/usr/lib/qt5/bin/uic mainwindow.ui -o ui_mainwindow.h
@@ -499,6 +510,10 @@ ui_mainwindow.h: mainwindow.ui \
 ui_DiffView.h: DiffView.ui \
 		/usr/lib/qt5/bin/uic
 	/usr/lib/qt5/bin/uic DiffView.ui -o ui_DiffView.h
+
+ui_averageaccuracies.h: averageaccuracies.ui \
+		/usr/lib/qt5/bin/uic
+	/usr/lib/qt5/bin/uic averageaccuracies.ui -o ui_averageaccuracies.h
 
 ui_commentsview.h: commentsview.ui \
 		/usr/lib/qt5/bin/uic
@@ -523,6 +538,10 @@ DiffView.o: DiffView.cpp DiffView.h \
 		diff_match_patch.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DiffView.o DiffView.cpp
 
+averageaccuracies.o: averageaccuracies.cpp averageaccuracies.h \
+		ui_averageaccuracies.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o averageaccuracies.o averageaccuracies.cpp
+
 commentsview.o: commentsview.cpp commentsview.h \
 		ui_commentsview.h \
 		mainwindow.h \
@@ -535,6 +554,7 @@ diff_match_patch.o: diff_match_patch.cpp diff_match_patch.h
 mainwindow.o: mainwindow.cpp mainwindow.h \
 		zoom.h \
 		ui_mainwindow.h \
+		averageaccuracies.h \
 		eddis.h \
 		slpNPatternDict.h \
 		trieEditdis.h \
@@ -580,6 +600,9 @@ moc_mainwindow.o: moc_mainwindow.cpp
 
 moc_DiffView.o: moc_DiffView.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_DiffView.o moc_DiffView.cpp
+
+moc_averageaccuracies.o: moc_averageaccuracies.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_averageaccuracies.o moc_averageaccuracies.cpp
 
 moc_commentsview.o: moc_commentsview.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_commentsview.o moc_commentsview.cpp
