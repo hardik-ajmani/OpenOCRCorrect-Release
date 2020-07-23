@@ -1,6 +1,6 @@
 make clean
-git pull origin verifier-version
 rm -f qpadfinal
 rm -f Makefile
+git pull origin verifier-version
 qmake qpadfinal.pro
 make
