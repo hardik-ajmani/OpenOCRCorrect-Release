@@ -498,8 +498,8 @@ void MainWindow::on_actionSpell_Check_triggered()
 	on_actionSave_triggered();
 
 	QString textBrowserText = ui->textBrowser->toPlainText();
-	QChar ch;
-	ch = textBrowserText[1];
+	//QChar ch;
+	//ch = textBrowserText[1];
 	textBrowserText += " ";
 	string str1 = textBrowserText.toUtf8().constData();
 
@@ -535,14 +535,22 @@ void MainWindow::on_actionSpell_Check_triggered()
 				string wordNext;
 				//cout << GPage.size() <<  word << " " << GPage[word] << endl;
 				if (hasM40PerAsci(word1)) { wordNext = word1; }
-				else if (GBook[(word)] > 0) { wordNext = toDev(word); PWords[word]++; }
+
+				else if (GBook[(word)] > 0) { 
+					wordNext = toDev(word); 
+					PWords[word]++; // Updating domain dictionary
+				}//Checks in seccondary OCR (GBook) vocab
 				//else if(CPairRight[word] >0) {wordNext = "<font color=\'purple\'>" + toDev(CPair[word]) + "</font>";}
-				else if (PWords[word] > 0) { wordNext = "<font color=\'gray\'>" + toDev(word) + "</font>"; }
-				else if ((Dict[word] == 0) && (PWords[word] == 0) && (CPair[word].size() > 0)) {
-					wordNext = "<font color=\'purple\'>" + toDev(CPair[word]) + "</font>";
+				else if (PWords[word] > 0) { 
+					wordNext = "<font color=\'gray\'>" + toDev(word) + "</font>";//if it's found in domain dictionary mark it gray 
+				}
+				else if ((Dict[word] == 0) && (PWords[word] == 0) && (CPair[word].size() > 0)) {//Dict is general Dictionary, CPair is pair of word corrections
+					wordNext = "<font color=\'purple\'>" + toDev(CPair[word]) + "</font>";//Purple correct using CPair
 				}
 				else {
-					wordNext = findDictEntries(toslp1(word), Dict, PWords, word.size());//replace m1 with m2,m1 for combined search
+					//removed toslp1 conversion
+					wordNext = findDictEntries(word, Dict, PWords, word.size());//replace m1 with m2,m1 for combined search
+					
 					wordNext = find_and_replace_oddInstancesblue(wordNext);
 					wordNext = find_and_replace_oddInstancesorange(wordNext);
 				}
@@ -959,7 +967,7 @@ void MainWindow::on_actionSave_triggered()
         if(currentdirname == "VerifierOutput")
         {
             temp_currentpagename.replace("V2_","V3_");
-            temp_currentpagename.replace("V1_","V2_");
+			temp_currentpagename.replace("V1_","V2_");
         }
         QString changefiledir = filestructure_fw[currentdirname];
         QString localFilename = dir2levelup + "/" +changefiledir +"/" + temp_currentpagename;
@@ -3125,4 +3133,26 @@ void MainWindow::on_actionViewAverageAccuracies_triggered()
 
     AverageAccuracies *aa = new AverageAccuracies(csvfile, avgwordacc, avgcharacc, avgworderrors, avgcharerrors);
     aa->show();
+}
+void MainWindow::on_actionSuperscript_triggered() {
+	auto cursor = ui->textBrowser->textCursor();
+	auto selected = cursor.selection();
+	QString sel = selected.toPlainText();
+	cursor.removeSelectedText();
+	sel = "<sup>" + sel + "</sup>";
+	auto newfrag = selected.fromHtml(sel);
+	cursor.insertFragment(newfrag);
+}
+void MainWindow::on_actionSubscript_triggered() {
+	auto cursor = ui->textBrowser->textCursor();
+	auto selected = cursor.selection();
+	cursor.removeSelectedText();
+	QString sel = selected.toPlainText();
+	sel = "<sub>" + sel + "</sub>";
+	auto newfrag = selected.fromHtml(sel);
+	cursor.insertFragment(newfrag);
+}
+void MainWindow::on_actionInsert_Horizontal_Line_triggered()
+{
+    ui->textBrowser->insertHtml("<hr>");
 }
